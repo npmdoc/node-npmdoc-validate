@@ -56,6 +56,15 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.validate.validate">
+            function <span class="apidocSignatureSpan"></span>validate
+            <span class="apidocSignatureSpan">(obj, opts)</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <a class="apidocElementLiA" href="#apidoc.element.validate.property">
             function <span class="apidocSignatureSpan">validate.</span>property
             <span class="apidocSignatureSpan">(name, schema)</span>
@@ -65,7 +74,22 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.validate.schema">
+            function <span class="apidocSignatureSpan">validate.</span>schema
+            <span class="apidocSignatureSpan">(obj, opts)</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">validate.</span>property.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">validate.</span>schema.prototype</span>
 
         </li>
 
@@ -169,10 +193,110 @@
 
     </ol></li>
 
+    <li class="apidocModuleLi"><a href="#apidoc.module.validate.schema">module validate.schema</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.validate.schema.schema">
+            function <span class="apidocSignatureSpan">validate.</span>schema
+            <span class="apidocSignatureSpan">(obj, opts)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.validate.schema.prototype">module validate.schema.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.validate.schema.prototype.assert">
+            function <span class="apidocSignatureSpan">validate.schema.prototype.</span>assert
+            <span class="apidocSignatureSpan">(obj, opts)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.validate.schema.prototype.path">
+            function <span class="apidocSignatureSpan">validate.schema.prototype.</span>path
+            <span class="apidocSignatureSpan">(path, rules)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.validate.schema.prototype.strip">
+            function <span class="apidocSignatureSpan">validate.schema.prototype.</span>strip
+            <span class="apidocSignatureSpan">(obj, prefix)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.validate.schema.prototype.typecast">
+            function <span class="apidocSignatureSpan">validate.schema.prototype.</span>typecast
+            <span class="apidocSignatureSpan">(obj)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.validate.schema.prototype.validate">
+            function <span class="apidocSignatureSpan">validate.schema.prototype.</span>validate
+            <span class="apidocSignatureSpan">(obj, opts)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
 </ol></div>
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.validate" id="apidoc.module.validate">module validate</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.validate.validate" id="apidoc.element.validate.validate">
+        function <span class="apidocSignatureSpan"></span>validate
+        <span class="apidocSignatureSpan">(obj, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Schema(obj, opts) {
+  if (!(this instanceof Schema)) return new Schema(obj, opts);
+  obj = obj || {};
+  this.props = {};
+  this.opts = opts || {};
+  for (var key in obj) {
+    if (!obj.hasOwnProperty(key)) continue;
+    this.path(key, obj[key]);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+      type: 'string',
+      required: true,
+      message: 'City is required.'
+    }
+  },
+});
+
+var errors = user.<span class="apidocCodeKeywordSpan">validate</span>(obj);
+```
+
+Each error has a `.path`, describing the full path of the property that failed validation,
+and a `.message` property.
+
+```js
+errors[0].path //=&gt; 'address.street'
+...</pre></li>
+    </ul>
+
 
 
     <h2>
@@ -191,6 +315,46 @@
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.validate.schema" id="apidoc.element.validate.schema">
+        function <span class="apidocSignatureSpan">validate.</span>schema
+        <span class="apidocSignatureSpan">(obj, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Schema(obj, opts) {
+  if (!(this instanceof Schema)) return new Schema(obj, opts);
+  obj = obj || {};
+  this.props = {};
+  this.opts = opts || {};
+  for (var key in obj) {
+    if (!obj.hasOwnProperty(key)) continue;
+    this.path(key, obj[key]);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+ * @param {String} path
+ * @param {Object} [rules]
+ * @return {Path}
+ * @api public
+ */
+
+path: function (path, rules) {
+  return this.<span class="apidocCodeKeywordSpan">schema</span>(path, rules);
+},
+
+/**
+ * Set default error message
+ *
+ * @param {String} msg
+ * @return {Property}
+...</pre></li>
+    </ul>
+
+
 
 
 
@@ -461,6 +625,221 @@ required: function (bool, msg) {
   }
 
   return false;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+      type: 'string',
+      required: true,
+      message: 'City is required.'
+    }
+  },
+});
+
+var errors = user.<span class="apidocCodeKeywordSpan">validate</span>(obj);
+```
+
+Each error has a `.path`, describing the full path of the property that failed validation,
+and a `.message` property.
+
+```js
+errors[0].path //=&gt; 'address.street'
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.validate.schema" id="apidoc.module.validate.schema">module validate.schema</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.validate.schema.schema" id="apidoc.element.validate.schema.schema">
+        function <span class="apidocSignatureSpan">validate.</span>schema
+        <span class="apidocSignatureSpan">(obj, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Schema(obj, opts) {
+  if (!(this instanceof Schema)) return new Schema(obj, opts);
+  obj = obj || {};
+  this.props = {};
+  this.opts = opts || {};
+  for (var key in obj) {
+    if (!obj.hasOwnProperty(key)) continue;
+    this.path(key, obj[key]);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+ * @param {String} path
+ * @param {Object} [rules]
+ * @return {Path}
+ * @api public
+ */
+
+path: function (path, rules) {
+  return this.<span class="apidocCodeKeywordSpan">schema</span>(path, rules);
+},
+
+/**
+ * Set default error message
+ *
+ * @param {String} msg
+ * @return {Property}
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.validate.schema.prototype" id="apidoc.module.validate.schema.prototype">module validate.schema.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.validate.schema.prototype.assert" id="apidoc.element.validate.schema.prototype.assert">
+        function <span class="apidocSignatureSpan">validate.schema.prototype.</span>assert
+        <span class="apidocSignatureSpan">(obj, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">assert = function (obj, opts) {
+  var errors = this.validate(obj, opts);
+  if (errors.length &gt; 0) throw errors[0];
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.validate.schema.prototype.path" id="apidoc.element.validate.schema.prototype.path">
+        function <span class="apidocSignatureSpan">validate.schema.prototype.</span>path
+        <span class="apidocSignatureSpan">(path, rules)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">path = function (path, rules) {
+  var nested = false;
+  var prop = this.props[path] || new Property(path, this);
+  this.props[path] = prop;
+
+  // no rules?
+  if (!rules) return prop;
+
+  // check if nested
+  for (var key in rules) {
+    if (!rules.hasOwnProperty(key)) continue;
+    if ('function' == typeof prop[key]) continue;
+    nested = true;
+    break;
+  }
+
+  for (var key in rules) {
+    if (!rules.hasOwnProperty(key)) continue;
+
+    if (nested) {
+      this.path(join(key, path), rules[key]);
+      continue;
+    }
+
+    var rule = rules[key];
+    if (!Array.isArray(rule)) rule = [rule];
+    prop[key].apply(prop, rule);
+  }
+
+  return prop;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+errors[0].path //=&gt; 'address.street'
+errors[0].message //=&gt; 'Street is required.'
+```
+
+You can also add paths to a schema by using the chainable API
+```js
+user
+.<span class="apidocCodeKeywordSpan">path</span>('username')
+.type('string')
+.required()
+.match(/[a-z]{2,16}/)
+.message('Username must be 2-16 chars.');
+
+user
+.path('address.zip')
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.validate.schema.prototype.strip" id="apidoc.element.validate.schema.prototype.strip">
+        function <span class="apidocSignatureSpan">validate.schema.prototype.</span>strip
+        <span class="apidocSignatureSpan">(obj, prefix)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">strip = function (obj, prefix) {
+  for (var key in obj) {
+    var path = join(key, prefix);
+
+    if (!obj.hasOwnProperty(key)) continue;
+
+    if (!this.props[path]) {
+      delete obj[key];
+      continue;
+    }
+
+    if (typeOf(obj[key]) == 'object') {
+      this.strip(obj[key], path);
+    }
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.validate.schema.prototype.typecast" id="apidoc.element.validate.schema.prototype.typecast">
+        function <span class="apidocSignatureSpan">validate.schema.prototype.</span>typecast
+        <span class="apidocSignatureSpan">(obj)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">typecast = function (obj) {
+  for (var key in this.props) {
+    var prop = this.props[key];
+    var value = dot.get(obj, key);
+    if (value == null) continue;
+    dot.set(obj, key, prop.typecast(value));
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.validate.schema.prototype.validate" id="apidoc.element.validate.schema.prototype.validate">
+        function <span class="apidocSignatureSpan">validate.schema.prototype.</span>validate
+        <span class="apidocSignatureSpan">(obj, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">validate = function (obj, opts) {
+  var errors = [];
+  opts = opts || this.opts;
+
+  if (opts.typecast) this.typecast(obj);
+  if (opts.strip !== false) this.strip(obj);
+
+  for (var key in this.props) {
+    var prop = this.props[key];
+    var value = dot.get(obj, key);
+    var err = prop.validate(value, obj);
+    if (err) errors.push(err);
+  }
+
+  return errors;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
       type: 'string',
